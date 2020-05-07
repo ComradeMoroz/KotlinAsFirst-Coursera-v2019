@@ -96,10 +96,24 @@ fun timeForHalfWay(
  * и 3, если угроза от обеих ладей.
  * Считать, что ладьи не могут загораживать друг друга
  */
+//    0 - нет угрозы.
+//    1 - угроза от первой. Когда К стоит на одной вертикали с Л1 И НЕ на одной горизонтали с Л2 ИЛИ когда стоит на одной горизонтали Л1 и не на одной вертикали с Л2.
+//    2 - угроза от второй. Когда К стоит на одной вертикали с Л2 И НЕ на одной горизонтали с Л1 ИЛИ когда стоит на одной горизонтали с Л2 и не на одной вертикали с Л1.
+//    3 - угроза от обеих. Когда К стоит на одной вертикали с Л1 И одной горизонтали с Л2 ИЛИ на одной вертикали с Л2 И одной горизонтали с Л1.
 fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
-    rookX2: Int, rookY2: Int): Int = TODO()
+    rookX2: Int, rookY2: Int): Int {
+    if (kingX == rookX1 && kingY != rookY2 || kingY == rookY1 && kingX != rookX2) {
+        return 1
+    } else if (kingX == rookX2 && kingY != rookY1 || kingY == rookY2 && kingX != rookX1) {
+        return 2
+    } else if (kingX == rookX1 && kingY == rookY2 || kingX == rookX2 && kingY == rookY1) {
+        return 3
+    } else {
+        return 0
+    }
+}
 
 /**
  * Простая
@@ -115,7 +129,17 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    if (!(kingX + kingY == bishopX + bishopY || kingX - kingY == bishopX - bishopY) && !(kingX == rookX || kingY == rookY)) { //НЕ бьется слоном И НЕ бьется ладьей
+        return 0
+    } else if (kingX == rookX || kingY == rookY && !(kingX + kingY == bishopX + bishopY || kingX - kingY == bishopX - bishopY)) { //Бьется ладьей И НЕ бьется слоном
+        return 1
+    } else if ((kingX + kingY == bishopX + bishopY || kingX - kingY == bishopX - bishopY) && !(kingX == rookX || kingY == rookY)) { //Бьется слоном И НЕ бьется ладьей
+        return 2
+    } else {
+        return 3
+    }
+}
 
 /**
  * Простая
@@ -146,4 +170,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+//Отрезки не пересекаются, если с > b ИЛИ d < a
+//Отрезки не пересекаются, но длина пересечения 0, если отрезки не пересекаются, но соприкасаются скрайними точками, т.е. если c == b или d == a
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (c > b || d < a) {
+        return -1
+    } else if (c == b || d == a) {
+        return 0
+    } else if (a == c && b > c || a > c && b == d || c > a && b < d) {
+        return b
+    } else {
+      return  TODO()
+    }
+}
