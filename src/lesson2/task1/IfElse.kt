@@ -103,7 +103,8 @@ fun timeForHalfWay(
 fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
-    rookX2: Int, rookY2: Int): Int {
+    rookX2: Int, rookY2: Int
+): Int {
     if (kingX == rookX1 && kingY != rookY2 || kingY == rookY1 && kingX != rookX2) {
         return 1
     } else if (kingX == rookX2 && kingY != rookY1 || kingY == rookY2 && kingX != rookX1) {
@@ -173,13 +174,18 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 //Отрезки не пересекаются, если с > b ИЛИ d < a
 //Отрезки не пересекаются, но длина пересечения 0, если отрезки не пересекаются, но соприкасаются скрайними точками, т.е. если c == b или d == a
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (c > b || d < a) {
+    if (c > b || d < a) { //отрезки не пересекаются
         return -1
-    } else if (c == b || d == a) {
+    } else if (c == b || d == a) { //отрезки соприкасаются
         return 0
-    } else if (a == c && b > c || a > c && b == d || c > a && b < d) {
-        return b
-    } else {
-      return  TODO()
+    } else if (a >= c && b <= d) { //отрезок 1 лежит на отрезке 2 и наоборот
+        return b - a
+    } else if (a < c && b > d) {
+        return d - c
+    } else if (a > c && b > d) { //отрезок 1 пересекается слева
+        return d - a
+    } else if (a < c && b > c) {
+        return b - c
     }
+    return 100
 }
