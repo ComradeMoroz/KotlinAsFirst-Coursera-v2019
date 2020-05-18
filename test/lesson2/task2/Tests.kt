@@ -28,6 +28,7 @@ class Tests {
         assertTrue(queenThreatens(3, 6, 7, 6))
         assertTrue(queenThreatens(8, 1, 1, 8))
         assertFalse(queenThreatens(7, 6, 5, 7))
+        //тест кривой, последний ассерт - они под боем друг друга
     }
 
     @Test

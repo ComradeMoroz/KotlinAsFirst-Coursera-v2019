@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.sqrt
 
 /**
@@ -67,7 +68,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+//Их столько, сколько раз число делитсья на 10 без остатка.
+fun digitNumber(n: Int): Int {
+    var r = 0
+    var w = n
+    if (n in 0..9) return 1
+
+    while (w >= 10) {
+        w /= 10
+        r++
+    }
+    return r+1
+}
 
 /**
  * Простая
@@ -83,14 +95,34 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+//Это мрак как не оптимально, но мне как-то пох...
+fun lcm(m: Int, n: Int): Int {
+    var k = 2
+
+    while (true) {
+        if (k % m == 0 && k % n == 0) {
+            return k
+            false
+        } else {
+            k++
+        }
+    }
+    return 100
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+//Обычно перебор делителей заключается в переборе всех целых (как вариант: простых) чисел от 2 до квадратного корня из факторизуемого числа n
+// и в вычислении остатка от деления n на каждое из этих чисел. Если остаток от деления на некоторое число i равен 0, то i является делителем n.
+fun minDivisor(n: Int): Int {
+    for (m in 2..sqr(n)) {
+        if (n % m == 0) return m
+    }
+    return n
+}
 
 /**
  * Простая
@@ -133,7 +165,22 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var r = 0
+    var w = x
+    if (w == 1) return r
+
+    while (w != 1) {
+        if (w % 2 == 0) {
+            w /= 2
+        } else {
+            w = 3 * w + 1
+        }
+        r++
+    }
+
+    return r
+}
 
 /**
  * Средняя
