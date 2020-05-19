@@ -78,7 +78,7 @@ fun digitNumber(n: Int): Int {
         w /= 10
         r++
     }
-    return r+1
+    return r + 1
 }
 
 /**
@@ -87,7 +87,8 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int =
+    if (n == 1 || n == 2) 1 else fib(n - 1) + fib(n - 2) //следующее число (n) это сумма двух предыдущих n-1 и n-2
 
 /**
  * Простая
@@ -129,7 +130,18 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var max_divider = 0
+
+    for (i in 1 until n) {
+        if (n % i == 0) {
+            if (max_divider < i) {
+                max_divider = i
+            }
+        }
+    }
+    return max_divider
+}
 
 /**
  * Простая
@@ -211,7 +223,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var r = 0
+    var w = n
+    while (w > 0) {
+        var i = w % 10
+        r = r * 10 + i
+        w /= 10
+    }
+    return r
+}
 
 /**
  * Средняя
@@ -222,7 +243,17 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var reversed = 0
+
+    var w = n
+    while (w > 0) {
+        var i = w % 10
+        reversed = reversed * 10 + i
+        w /= 10
+    }
+    return if (n == reversed) true else false
+}
 
 /**
  * Средняя
@@ -232,7 +263,23 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+//Если текущее число НЕ совпало с предыдущим - вернуть true, если совпало идти до самого конца и в конце выдать false
+fun hasDifferentDigits(n: Int): Boolean {
+    var current = n //текущее число
+    var previous = current % 10 //предыдущее число. Изначально равно последней цифре текущего числа
+
+    while (current > 0) { //пока текущее числдо еще имеет разряды
+        //берем последнее число от текущего
+        //и если оно НЕ совпало с предыдущим, возвращаем true и выходим из цикла
+        if (current % 10 != previous) {
+            return true
+            break
+        }
+        previous = current % 10//иначе предыдущее число == текущему
+        current /= 10//укорачиваем текущее на 1 разряд
+    }
+    return false
+}
 
 /**
  * Сложная
