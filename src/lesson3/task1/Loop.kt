@@ -150,7 +150,22 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+//Если наименьший общий делитель обеих числе это 1, то они взаимно простые
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var a = m
+    var b = n
+
+    //NOD
+    while (a !=  b) {
+        if (a > b) {
+            a -= b
+        }
+        b -= a
+    }
+    var nod = a
+
+    return if (nod == 1) true else false
+}
 
 /**
  * Простая
