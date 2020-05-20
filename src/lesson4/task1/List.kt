@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -115,14 +116,23 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var nl = v.map { it * it } //map  выполняет операцию над каждым элементом списка
+    var r = nl.sum()
+    return sqrt(r)
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) return 0.0
+    var r =
+        list.fold(0.0) { pr, el -> pr + el } //fold в начальном параметре (0.0) хранит сумму себя с каждым последующим значенем эелемента списка
+    return r / list.size
+}
 
 /**
  * Средняя
