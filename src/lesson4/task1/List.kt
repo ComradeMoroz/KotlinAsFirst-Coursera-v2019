@@ -142,7 +142,16 @@ fun mean(list: List<Double>): Double {
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty()) return list
+    //предположим, среднее арифметическое нужно высчитать всего один раз, а не после каждого изменения списка
+    val ma = list.fold(0.0) { p, e -> p + e } / list.size
+
+    for (i in list.indices) { //until никогда не выведет тебя за границы списка
+        list[i] -= ma
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -151,7 +160,16 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    if (a.isEmpty() || b.isEmpty() || a.isEmpty() && b.isEmpty()) return 0
+    var r = 0
+
+    for (i in a.indices) { //indices еще лучше, читай документацию!
+        r += a[i] * b[i]
+    }
+
+    return r
+}
 
 /**
  * Средняя
@@ -161,7 +179,16 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+//assertEquals(13, polynom(listOf(3, 2), 5))
+fun polynom(p: List<Int>, x: Int): Int {
+    if (p.isEmpty() || x == 0 || p.isEmpty() && x == 0) return 0
+    var r = p[0]
+
+    for (i in 1 until p.size) {
+        r += p[i] * x.toDouble().pow(i.toDouble()).toInt()
+    }
+    return r
+}
 
 /**
  * Средняя
@@ -173,7 +200,15 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    if (list.isEmpty()) return list
+
+    for (i in list.indices) {
+        if (i == 0) list[i] = list[i] else list[i] = list[i] + list[i - 1]
+    }
+
+    return list
+}
 
 /**
  * Средняя
@@ -182,7 +217,23 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+//Берем самое маленькое простое число и если параметр делится на него, пишем его в результирующий список,
+// далее делим параметр на это число (2), если не делится берем следующее простое число и так пока параметр не станет равен 1
+fun factorize(n: Int): List<Int> {
+    val r = mutableListOf<Int>()
+    var d = 2
+    var s = n
+
+    while (s > 1) {
+        if (s % d == 0) {
+            r.add(d)
+            s /= d
+        } else {
+            d++
+        }
+    }
+    return r.sorted()
+}
 
 /**
  * Сложная
