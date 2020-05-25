@@ -244,7 +244,7 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     val a = factorize(n)
-    return a.joinToString(separator = "*")
+    return a.joinToString(separator = "*") //
 }
 
 /**
