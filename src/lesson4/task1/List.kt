@@ -254,7 +254,18 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+//По идее, нужно делить число на основание, частное делить пока оно не станет нулем, остатки записывать И список остатков в обратном порядлке и будет искомым числом.
+fun convert(n: Int, base: Int): List<Int> {
+    var r = listOf<Int>()
+    var w = n
+
+    while (w > 0) {
+        r += w % base
+        w /= base
+    }
+
+    return r.reversed()
+}
 
 /**
  * Сложная
@@ -267,7 +278,46 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var r = ""
+    var w = n
+
+    while (w > 0) {
+        var i = when (w % base) {
+            10 -> 'a'
+            11 -> 'b'
+            12 -> 'c'
+            13 -> 'd'
+            14 -> 'e'
+            15 -> 'f'
+            16 -> 'g'
+            17 -> 'h'
+            18 -> 'i'
+            19 -> 'j'
+            20 -> 'k'
+            21 -> 'l'
+            22 -> 'm'
+            23 -> 'n'
+            24 -> 'o'
+            25 -> 'p'
+            26 -> 'q'
+            27 -> 'r'
+            28 -> 's'
+            29 -> 't'
+            30 -> 'u'
+            31 -> 'v'
+            32 -> 'w'
+            33 -> 'x'
+            34 -> 'y'
+            35 -> 'z'
+            else -> w % base
+        }
+        r += i
+        w /= base
+    }
+
+    return r.reversed()
+}
 
 /**
  * Средняя
@@ -276,7 +326,9 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+//Из примера: 1*14^2 + 3*14^1 + 12*14^0 = 196 + 42 + 12 = 250
+fun decimal(digits: List<Int>, base: Int): Int =
+    digits.reversed().foldIndexed(0) { index, acc, i -> acc + i * base.toDouble().pow(index).toInt() }
 
 /**
  * Сложная
@@ -290,7 +342,49 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+//Декодирование НЕ работает
+fun decimalFromString(str: String, base: Int): Int {
+    var l = mutableListOf<Int>()
+    var r = 0
+
+    for (i in str.length - 1 downTo 0) {
+        if (str[i].isLetter()) {
+            var t = when (str[i]) {
+                'a' -> 10
+                'b' -> 11
+                'c' -> 12
+                'd' -> 13
+                'e' -> 14
+                'f' -> 15
+                'g' -> 16
+                'h' -> 17
+                'i' -> 18
+                'j' -> 19
+                'k' -> 20
+                'l' -> 21
+                'm' -> 22
+                'n' -> 23
+                'o' -> 24
+                'p' -> 25
+                'q' -> 26
+                'r' -> 27
+                's' -> 28
+                't' -> 29
+                'u' -> 30
+                'v' -> 31
+                'w' -> 32
+                'x' -> 33
+                'y' -> 34
+                'z' -> 35
+                else -> str[i]
+            }.toString()
+            l.add(t.toInt())
+        }
+        l.add(str[i].toString().toInt())
+    }
+
+    return l.foldIndexed(0) { index, acc, i -> acc + i * base.toDouble().pow(index).toInt() }
+}
 
 /**
  * Сложная
