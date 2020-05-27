@@ -342,49 +342,44 @@ fun decimal(digits: List<Int>, base: Int): Int =
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-//Декодирование НЕ работает
 fun decimalFromString(str: String, base: Int): Int {
     var l = mutableListOf<Int>()
-    var r = 0
 
     for (i in str.length - 1 downTo 0) {
-        if (str[i].isLetter()) {
-            var t = when (str[i]) {
-                'a' -> 10
-                'b' -> 11
-                'c' -> 12
-                'd' -> 13
-                'e' -> 14
-                'f' -> 15
-                'g' -> 16
-                'h' -> 17
-                'i' -> 18
-                'j' -> 19
-                'k' -> 20
-                'l' -> 21
-                'm' -> 22
-                'n' -> 23
-                'o' -> 24
-                'p' -> 25
-                'q' -> 26
-                'r' -> 27
-                's' -> 28
-                't' -> 29
-                'u' -> 30
-                'v' -> 31
-                'w' -> 32
-                'x' -> 33
-                'y' -> 34
-                'z' -> 35
-                else -> str[i]
-            }.toString()
-            l.add(t.toInt())
-        }
-        l.add(str[i].toString().toInt())
+        var t = when (str[i]) {
+            'a' -> 10
+            'b' -> 11
+            'c' -> 12
+            'd' -> 13
+            'e' -> 14
+            'f' -> 15
+            'g' -> 16
+            'h' -> 17
+            'i' -> 18
+            'j' -> 19
+            'k' -> 20
+            'l' -> 21
+            'm' -> 22
+            'n' -> 23
+            'o' -> 24
+            'p' -> 25
+            'q' -> 26
+            'r' -> 27
+            's' -> 28
+            't' -> 29
+            'u' -> 30
+            'v' -> 31
+            'w' -> 32
+            'x' -> 33
+            'y' -> 34
+            'z' -> 35
+            else -> str[i]
+        }.toString()
+        l.add(t.toInt())
     }
-
     return l.foldIndexed(0) { index, acc, i -> acc + i * base.toDouble().pow(index).toInt() }
 }
+
 
 /**
  * Сложная
@@ -394,7 +389,37 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+//1978 -> MCMLXXVIII
+fun roman(n: Int): String {
+    var wInt = n
+    val initValues = listOf<Int>(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    var r = listOf<String>()
+
+    for (i in initValues.indices) { //Входим в список номеров initValues
+        while (wInt >= initValues[i]) { //Пока параметр больше чем значение в списке номеров по индексу i
+            var t = when (initValues[i]) {
+                1000 -> "M"
+                900 -> "CM"
+                500 -> "D"
+                400 -> "CD"
+                100 -> "C"
+                90 -> "XC"
+                50 -> "L"
+                40 -> "XL"
+                10 -> "X"
+                9 -> "IX"
+                5 -> "V"
+                4 -> "IV"
+                else -> "I"
+            } //декодируем его
+
+            r += t //и пишем в результат
+            wInt -= initValues[i] //вычитаем из параметра значение в списке номеров по индексу i
+        }
+    }
+
+    return r.joinToString(separator = "")
+}
 
 /**
  * Очень сложная
@@ -403,4 +428,7 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+//один, два, три, четыре, пять, шесть, семь, восемь, девять, десять, двадцать, тридцать, сорок, пятьдесят, шестьдесят, семьдесят, восеьмдесят, девяносто, сто, двести, триста, четыреста, пятьсот, шестьсот, семьсот,
+//воесьмот, десятьсот
+//тысяча, тысячи, тысяч
 fun russian(n: Int): String = TODO()
