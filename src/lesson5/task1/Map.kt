@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.getEntry
+
 /**
  * Пример
  *
@@ -91,7 +93,17 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val result = mutableMapOf<Int, List<String>>()
+    val setOfValues = grades.values.toSet() //берем сет значений
+
+    for (i in setOfValues) { //проходимся по нему
+        val students = grades.filterValues { it == i }.keys.toList() //берем список ключей по значнию для каждого
+        result += Pair(i, students) //кладем в мапу как ключ  + список его ключей как значение
+    }
+
+    return result
+}
 
 /**
  * Простая
@@ -103,7 +115,16 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    for (keysOfFirst in a.keys) {
+        if (b.containsKey(keysOfFirst)) {
+            if (a[keysOfFirst] == b[keysOfFirst]) {
+                return true
+            }
+        }
+    }
+    return false
+}
 
 /**
  * Простая
@@ -119,7 +140,23 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TODO()
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+    val assetsToRemove = mutableListOf<String>()
+
+    //выписываем ключи всех элементов которые есть в обоих списках
+    for (keyOfImmutableMap in b.keys) {
+        if (a.containsKey(keyOfImmutableMap)) {
+            if (b[keyOfImmutableMap] == a[keyOfImmutableMap]) {
+                assetsToRemove += keyOfImmutableMap
+            }
+        }
+    }
+
+    //удаляем элементы из a по списку
+    for (asset in assetsToRemove) {
+        a.remove(asset)
+    }
+}
 
 /**
  * Простая
@@ -128,7 +165,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TO
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+//построить пересечение списков
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b).toList()
 
 /**
  * Средняя
