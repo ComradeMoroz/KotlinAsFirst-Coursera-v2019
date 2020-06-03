@@ -185,7 +185,32 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+/*
+Проходим по A, если ключ есть в Б, тогда значениея из Б, пишем к А и кладем в результат, если значения нет - просто кладем в результат
+Проходим по Б, если ключ есть в результате - пропускаем, если нет - добавляем в результат
+*/
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    var result = mapOf<String, String>()
+
+    for (keyInA in mapA.keys) {
+        if (mapB.containsKey(keyInA)) {
+            val valuesSet = mutableListOf<String>()
+            valuesSet += mapA[keyInA]!!
+            valuesSet += mapB.filterKeys { it == keyInA }.values
+            result += Pair(keyInA, valuesSet.toSet().joinToString(", "))
+        } else {
+            result += keyInA.toString() to mapA[keyInA].toString()
+        }
+    }
+
+    for (keyInB in mapB.keys) {
+        if (!result.containsKey(keyInB)) {
+            result += Pair(keyInB.toString(), mapB[keyInB].toString())
+        }
+    }
+
+    return result
+}
 
 /**
  * Средняя
@@ -239,7 +264,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> =
+    list.groupingBy { it.first().toString() }.eachCount().filterValues { it > 1 }
 
 /**
  * Средняя
