@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import ru.spbstu.wheels.getEntry
+import java.util.*
 
 /**
  * Пример
@@ -222,7 +223,18 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val res = mutableMapOf<String, Double>()
+    var workingVariable = stockPrices.groupBy(keySelector = { it.first }, valueTransform = { it.second })
+    // -> {MSFT=[100.0, 200.0], NFLX=[40.0]}
+
+    for ((key, value) in workingVariable) {
+        val calculatedValue = value.sum() / value.size
+        res += Pair(key, calculatedValue)
+    }
+
+    return res
+}
 
 /**
  * Средняя
@@ -239,7 +251,24 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+//HERE!
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var result = ""
+    var wV = stuff.filter { it.value.first == kind }
+    var biggestValue = 0.0
+
+    for ((key, value) in wV) {
+        if (value.first.isEmpty()) {
+            return null
+        }
+        if (value.second > biggestValue) {
+            biggestValue = value.second
+        }
+    }
+
+    result += stuff.filterValues { it.second == biggestValue }.keys.toString()
+    return result
+}
 
 /**
  * Средняя
