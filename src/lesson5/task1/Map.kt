@@ -283,7 +283,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = if (chars.sorted() == word.toSortedSet().toList()) true else false
 
 /**
  * Средняя
@@ -309,7 +309,18 @@ fun extractRepeats(list: List<String>): Map<String, Int> =
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+//В исходном списке превращаем каждое слово в осортированный сет
+//и сам списко в сет - убираем дупбликаты
+//сравниваем исходный список с результатом, если исходный больше, значит он содержит дубликаты, т.е. слова с одинаковыми наборами букв (анаграммы)
+fun hasAnagrams(words: List<String>): Boolean {
+    val workingSet = words.map { it.toSortedSet() }.toSet()
+
+    if (words.size > workingSet.size) {
+        return true
+    }
+
+    return false
+}
 
 /**
  * Сложная
@@ -335,6 +346,8 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
+//Берем Марата от Светы, ищем ключ Марат в исходном массиве, перебираем значения Марата, если Михаил есть у Светы, пропускаем....
+// а если нет, нужно найти Михаила (ключ) и если у него в значениям есть Света, то нужно добавить Михаила к Свете
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
 
 /**
