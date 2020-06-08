@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson3.task1.cos
+
 /**
  * Пример
  *
@@ -157,7 +159,19 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return description
+    val costPair = description.split("; ")
+    val listOfPairs = mutableListOf<Pair<String, Double>>()
+
+    costPair.forEach { pairOfCosts ->
+        val (name, cost) = pairOfCosts.split(" ")
+        listOfPairs += Pair(name, cost.toDouble())
+    }
+
+    listOfPairs.sortBy { it.second }
+    return listOfPairs.last().first
+}
 
 /**
  * Сложная
@@ -170,7 +184,30 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val romanNumbers = mapOf<String, Int>(
+        "I" to 1,
+        "IV" to 4,
+        "V" to 5,
+        "IX" to 9,
+        "X" to 10,
+        "XL" to 40,
+        "L" to 50,
+        "XC" to 90,
+        "C" to 100,
+        "CD" to 400,
+        "D" to 500,
+        "CM" to 900,
+        "M" to 1000
+    )
+    var result = 0
+
+    roman.forEach { if (!romanNumbers.containsKey(it.toString())) return -1 } //если маппинг не содержит ключей равных каждому из символов исходной строки, то это не римское число
+
+
+
+    return result
+}
 
 /**
  * Очень сложная
