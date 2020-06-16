@@ -71,7 +71,31 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val splitString = str.split(" ").toMutableList()
+    if (splitString.size < 3 || splitString.first().toInt() > 31 || splitString.last()
+            .toInt() % 4 != 0 && splitString[1] == "февраля" && splitString.first().toInt() == 29
+    ) return ""
+
+    val month: String = when (splitString.component2()) {
+        "января" -> "01"
+        "февраля" -> "02"
+        "марта" -> "03"
+        "апреля" -> "04"
+        "мая" -> "05"
+        "июня" -> "06"
+        "июля" -> "07"
+        "августа" -> "08"
+        "сентября" -> "09"
+        "октября" -> "10"
+        "ноября" -> "11"
+        "декабря" -> "12"
+        else -> return ""
+    }
+    splitString[1] = month
+
+    return splitString.joinToString(".")
+}
 
 /**
  * Средняя
@@ -83,7 +107,36 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+//size > 3, contain chars, month > 31 and leap year checks are needed
+fun dateDigitToStr(digital: String): String {
+    val splitString = digital.split(".").toMutableList()
+    if (digital.contains(Regex("[a-z]")) ) return ""
+    if (splitString.size > 3 || splitString[0].toInt() > 31 ||
+        splitString.first().toInt() == 29 && splitString[1] == "02" && splitString.last().toInt() % 4 != 0
+    )
+        return ""
+
+    val month: String = when (splitString[1]) {
+        "01" -> "января"
+        "02" -> "февраля"
+        "03" -> "марта"
+        "04" -> "апреля"
+        "05" -> "мая"
+        "06" -> "июня"
+        "07" -> "июля"
+        "08" -> "августа"
+        "09" -> "сентября"
+        "10" -> "октября"
+        "11" -> "ноября"
+        "12" -> "декабря"
+        else -> return ""
+    }
+    splitString[1] = month
+    splitString[0] = splitString[0].toInt().toString()
+
+    return splitString.joinToString(" ")
+
+}
 
 /**
  * Средняя
@@ -99,7 +152,14 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+//Неверные номера содержат: буквы и?
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.contains("_") || phone.contains("()") || phone.contains(Regex("[a-z]"))) return ""
+    return String.format(
+        "+%s",
+        phone.split(Regex("[+||(||)||\\-||\\--]")).joinToString(separator = "").replace(" ", "")
+    )
+}
 
 /**
  * Средняя
@@ -111,7 +171,10 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.contains('+') || jumps.contains(" - - ")) return -1
+    return jumps.split(delimiters = *arrayOf("- ", " % ")).max()!!.toDouble().toInt()
+}
 
 /**
  * Сложная
@@ -171,6 +234,7 @@ fun mostExpensive(description: String): String {
 
     listOfPairs.sortBy { it.second }
     return listOfPairs.last().first
+
 }
 
 /**
@@ -184,27 +248,36 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
+//IV = 4
 fun fromRoman(roman: String): Int {
     val romanNumbers = mapOf<String, Int>(
         "I" to 1,
-        "IV" to 4,
+//        "IV" to 4,
         "V" to 5,
-        "IX" to 9,
+//        "IX" to 9,
         "X" to 10,
-        "XL" to 40,
+//        "XL" to 40,
         "L" to 50,
-        "XC" to 90,
+//        "XC" to 90,
         "C" to 100,
-        "CD" to 400,
+//        "CD" to 400,
         "D" to 500,
-        "CM" to 900,
+//        "CM" to 900,
         "M" to 1000
     )
     var result = 0
+    var previous = 0
 
     roman.forEach { if (!romanNumbers.containsKey(it.toString())) return -1 } //если маппинг не содержит ключей равных каждому из символов исходной строки, то это не римское число
 
-
+    roman.reversed().forEach { romanNumer ->
+        if (previous > romanNumbers[romanNumer.toString()]!!) {
+            result -= romanNumbers[romanNumer.toString()]!!
+        } else {
+            result += romanNumbers[romanNumer.toString()]!!
+        }
+        previous = romanNumbers[romanNumer.toString()]!!
+    }
 
     return result
 }
